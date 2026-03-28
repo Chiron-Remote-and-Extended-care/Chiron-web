@@ -175,7 +175,53 @@ footer {
   .logo-text .brand-chiron { font-size: 1rem; }
   .logo-text .brand-sub { font-size: 0.65rem; }
 }
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  font-size: 0.9rem;
+}
 
+.cookie-banner p {
+  max-width: 70%;
+  color: var(--text);
+}
+
+.cookie-banner a {
+  color: var(--blue-light);
+  text-decoration: underline;
+}
+
+.cookie-buttons button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#accept-cookies {
+  background: var(--blue);
+  color: white;
+}
+
+#decline-cookies {
+  background: #e2e8f0;
+  color: var(--text);
+}
+
+.cookie-banner.hidden {
+  display: none;
+}
 
 </style>
 </head>
@@ -392,6 +438,37 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 });
 
 document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+  <script>
+  const banner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("accept-cookies");
+  const declineBtn = document.getElementById("decline-cookies");
+
+  // Check if user already made a choice
+  if (localStorage.getItem("cookieConsent")) {
+    banner.classList.add("hidden");
+  }
+
+  acceptBtn.addEventListener("click", () => {
+    localStorage.setItem("cookieConsent", "accepted");
+    banner.classList.add("hidden");
+
+    // Load optional cookies/scripts here
+    // Example: analytics
+    // loadAnalytics();
+  });
+
+  declineBtn.addEventListener("click", () => {
+    localStorage.setItem("cookieConsent", "declined");
+    banner.classList.add("hidden");
+  });
+
+  // Example function for loading analytics only after consent
+  function loadAnalytics() {
+    const script = document.createElement("script");
+    script.src = "https://www.googletagmanager.com/gtag/js?id=YOUR-ID";
+    document.head.appendChild(script);
+  }
 </script>
 </body>
 </html><footer>
