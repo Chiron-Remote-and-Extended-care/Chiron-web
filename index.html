@@ -82,9 +82,12 @@ nav a,
   text-decoration: none;
   color: var(--text);
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.95rem;
   user-select: none;
   transition: color 0.2s ease;
+}
+nav .logo img {
+  max-height: 78px;
 }
 nav a.active {
   color: var(--blue);
@@ -141,17 +144,17 @@ nav a:focus-visible,
 }
 
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 84px);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 8% 0 8%;
+  padding: 7.5rem 8% 3rem 8%;
   color: white;
   overflow: hidden;
 }
 .hero-content {
-  max-width: 540px;
+  max-width: 520px;
   z-index: 2;
   position: relative;
 }
@@ -186,7 +189,7 @@ nav a:focus-visible,
   position: relative;
   margin: 2.5rem 0;
   max-width: 1200px;
-  min-height: 760px;
+  min-height: 660px;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
@@ -457,9 +460,9 @@ footer {
   .hero-side-image { display: block; }
   .carousel-slide img,
   .carousel-slide video {
-    height: clamp(600px, 70vh, 840px);
+    height: clamp(560px, 55vh, 740px);
   }
-  .carousel-container { max-width: 1200px; min-height: 760px; }
+  .carousel-container { max-width: 1200px; min-height: 700px; }
   .carousel-btn { width: 42px; height: 42px; }
 }
 
