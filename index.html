@@ -73,8 +73,23 @@ nav {
   display: flex; justify-content: space-between; align-items: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05); z-index: 100;
 }
-nav a { margin-left: 1.5rem; text-decoration: none; color: var(--text); font-weight: 500; }
-nav a:hover { color: var(--blue-light); }
+nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 1rem;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+nav a:hover,
+nav a:focus {
+  color: var(--blue-light);
+  outline: none;
+  text-shadow: none;
+  transform: none;
+  font-size: 1rem;
+}
 
 .logo { display: flex; align-items: center; gap: 0.75rem; }
 .logo img {
@@ -319,18 +334,17 @@ footer {
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px solid #f1f5f9;
-  transition: color 0.2s, padding-left 0.2s;
+  transition: color 0.2s, padding-left 0.2s, font-size 0.2s;
+  user-select: none;
 }
 .mobile-menu a:last-child { border-bottom: none; }
-.mobile-menu a:hover { color: var(--blue-light); padding-left: 0.5rem; }
-
-.mobile-menu-close {
-  position: absolute;
-  top: 1rem;
-  right: 1.2rem;
-  background: none;
-  border: none;
-  font-size: 1.4rem;
+.mobile-menu a:hover,
+.mobile-menu a:focus {
+  color: var(--blue-light);
+  padding-left: 0.5rem;
+  outline: none;
+  font-size: 1.15rem;
+}
   color: var(--muted);
   cursor: pointer;
   line-height: 1;
