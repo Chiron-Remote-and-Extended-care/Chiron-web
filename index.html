@@ -175,91 +175,227 @@ footer {
   .logo-text .brand-chiron { font-size: 1rem; }
   .logo-text .brand-sub { font-size: 0.65rem; }
 }
-.cookie-banner {
+
+/* ─── Cookie Consent Banner ─────────────────────────────────────────────── */
+#cookie-overlay {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  z-index: 9998;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1rem;
+}
+#cookie-overlay.hidden { display: none; }
+
+#cookie-banner {
   background: white;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+  border-radius: 16px 16px 16px 16px;
+  box-shadow: 0 -4px 40px rgba(0,0,0,0.18);
+  max-width: 780px;
+  width: 100%;
+  padding: 2rem;
+  font-size: 0.9rem;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+#cookie-banner h3 {
+  font-size: 1.1rem;
+  color: var(--blue);
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+#cookie-banner p {
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+#cookie-banner a {
+  color: var(--blue-light);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Toggle rows */
+.cookie-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+.cookie-toggle-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 9999;
-  font-size: 0.9rem;
+  gap: 1rem;
 }
-
-.cookie-banner p {
-  max-width: 70%;
+.cookie-toggle-info strong {
+  display: block;
+  font-size: 0.88rem;
   color: var(--text);
+  margin-bottom: 0.15rem;
+}
+.cookie-toggle-info span {
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 
-.cookie-banner a {
-  color: var(--blue-light);
-  text-decoration: underline;
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
 }
-
-.cookie-buttons button {
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
   cursor: pointer;
-  font-weight: 600;
+  inset: 0;
+  background: #cbd5e1;
+  border-radius: 999px;
+  transition: 0.3s;
 }
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--blue); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+.toggle-switch input:disabled + .toggle-slider { background: var(--blue); opacity: 0.65; cursor: not-allowed; }
 
-#accept-cookies {
+/* Buttons */
+.cookie-btn-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.cookie-btn-row button {
+  flex: 1;
+  min-width: 130px;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 9px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.2s;
+}
+#btn-accept-all {
   background: var(--blue);
   color: white;
 }
-
-#decline-cookies {
-  background: #e2e8f0;
+#btn-accept-all:hover { background: var(--blue-light); }
+#btn-reject-all {
+  background: #f1f5f9;
   color: var(--text);
+  border: 1.5px solid #e2e8f0;
+}
+#btn-reject-all:hover { background: #e2e8f0; }
+#btn-save-prefs {
+  background: white;
+  color: var(--blue);
+  border: 1.5px solid var(--blue);
+}
+#btn-save-prefs:hover { background: rgba(30,58,138,0.06); }
+
+.cookie-legal-note {
+  margin-top: 0.9rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  line-height: 1.5;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 0.75rem;
 }
 
-.cookie-banner.hidden {
-  display: none;
+/* Re-open preferences link in footer */
+#cookie-prefs-link {
+  color: var(--blue-light);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 0.88rem;
+  font-family: inherit;
+  padding: 0;
 }
-
+#cookie-prefs-link:hover { color: var(--blue); }
 </style>
 </head>
-<script>
-function togglePrivacy() {
-  const content = document.getElementById("privacy-content");
-  const question = content.previousElementSibling;
-
-  if (content.style.display === "block") {
-    content.style.display = "none";
-    question.classList.remove("open");
-  } else {
-    content.style.display = "block";
-    question.classList.add("open");
-  }
-}
-</script>
 <body>
 
-<div id="cookie-banner" class="cookie-banner">
-  <p>
-    We use cookies to improve your experience and to help us understand how people use our site. 
-    By clicking “Accept”, you agree to our use of cookies. 
-    <a href="#privacy-policy">Read our Privacy Policy</a>.
-  </p>
+<!-- ─── Cookie Consent Overlay ──────────────────────────────────────────── -->
+<div id="cookie-overlay" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+  <div id="cookie-banner">
+    <h3 id="cookie-title">🍪 We use cookies</h3>
+    <p>
+      We use cookies to make our website work and, where you agree, to understand how it is used 
+      so we can improve it. Essential cookies are always on. You can choose whether to accept 
+      optional analytics cookies below. For more detail, see our 
+      <a href="#privacy-policy" id="cookie-privacy-link">Privacy Policy</a>.
+    </p>
 
-  <div class="cookie-buttons">
-    <button id="accept-cookies">Accept</button>
-    <button id="decline-cookies">Decline</button>
+    <div class="cookie-toggles">
+      <!-- Essential — always on, non-negotiable -->
+      <div class="cookie-toggle-row">
+        <div class="cookie-toggle-info">
+          <strong>Essential cookies</strong>
+          <span>Required for the site to function. Cannot be disabled.</span>
+        </div>
+        <label class="toggle-switch" aria-label="Essential cookies (always active)">
+          <input type="checkbox" checked disabled>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- Analytics — opt-in -->
+      <div class="cookie-toggle-row">
+        <div class="cookie-toggle-info">
+          <strong>Analytics cookies</strong>
+          <span>Help us understand how visitors use the site (e.g. page views, traffic sources). No personal data is sold.</span>
+        </div>
+        <label class="toggle-switch" aria-label="Analytics cookies">
+          <input type="checkbox" id="toggle-analytics">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="cookie-btn-row">
+      <button id="btn-reject-all">Reject all optional</button>
+      <button id="btn-save-prefs">Save my preferences</button>
+      <button id="btn-accept-all">Accept all</button>
+    </div>
+
+    <p class="cookie-legal-note">
+      Under UK GDPR and the Privacy and Electronic Communications Regulations (PECR), we require your 
+      consent before placing non-essential cookies. You can change your preferences at any time using the 
+      "Cookie preferences" link in the footer. We will never use your data for advertising or sell it to third parties.
+    </p>
   </div>
 </div>
 
 <nav>
-  </div>
   <div class="logo" style="display:flex;align-items:center;">
     <img src="new_logo-removebg-preview.png" alt="Chiron Logo">
-    
-</div>
+  </div>
   <div>
     <a href="#about">About</a>
     <a href="#qualifications">Qualifications</a>
@@ -281,7 +417,7 @@ function togglePrivacy() {
 <section id="about" class="section-accent">
   <h2 class="fade-up">About</h2>
   <p class="fade-up">
-    Our mission is to support registered healthcare practitioners to deliver extended scope of practice interventions when operating in remote or austere environments. We can provide besboke training packages for those providing medical cover in settings such as maritime, offshore and expedition medicine. 
+    Our mission is to support registered healthcare practitioners to deliver extended scope of practice interventions when operating in remote or austere environments. We can provide bespoke training packages for those providing medical cover in settings such as maritime, offshore and expedition medicine.
   </p>
 </section>
 
@@ -331,8 +467,8 @@ function togglePrivacy() {
     <div class="faq-answer">Placeholder answer text describing how to get in touch.</div>
   </div>
   <div class="faq-item fade-left">
-    <div class="faq-question">What experience we have providing extended scope care?</div>
-    <div class="faq-answer">I currently work as a HEMS consultant in an established HEMS service delivering care including blood product resuscitation, pre hospital emergency anaesthesia and surgical procedures. </div>
+    <div class="faq-question">What experience do we have providing extended scope care?</div>
+    <div class="faq-answer">I currently work as a HEMS consultant in an established HEMS service delivering care including blood product resuscitation, pre hospital emergency anaesthesia and surgical procedures.</div>
   </div>
 </section>
 
@@ -358,7 +494,73 @@ function togglePrivacy() {
   </div>
 </section>
 
+<section id="privacy-policy" style="padding: 4rem 10%;">
+  <div class="faq-item">
+    <div class="faq-question" onclick="togglePrivacy()">Privacy Policy</div>
+    <div id="privacy-content" class="faq-answer">
+      <p>
+        At Chiron Remote &amp; Extended Care, we take your privacy seriously. This policy explains 
+        what information we collect, how we use it, and your rights under UK GDPR and the Data 
+        Protection Act 2018.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">1. Information We Collect</h4>
+      <p>
+        We only collect personal information that you voluntarily provide, such as your name, 
+        email address, or details submitted through our contact forms.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">2. How We Use Your Information</h4>
+      <p>
+        We use your information solely to respond to your enquiries, provide requested services, 
+        and maintain communication with you. We do not sell or share your information with 
+        third parties for commercial purposes.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">3. Cookies</h4>
+      <p>
+        This website uses <strong>essential cookies</strong> required for basic functionality. These are placed 
+        without consent as they are strictly necessary. <strong>Optional analytics cookies</strong> are only activated 
+        if you explicitly click "Accept all" or enable them in the cookie preferences panel. You may 
+        withdraw consent at any time using the "Cookie preferences" link in the footer.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">4. Legal Basis for Processing</h4>
+      <p>
+        We process contact form data on the basis of <em>legitimate interest</em> (responding to your 
+        enquiry). Analytics cookies are processed only on the basis of your <em>explicit consent</em>, 
+        in accordance with UK GDPR and PECR.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">5. Your Rights</h4>
+      <p>
+        You have the right to access, correct, delete, or restrict the use of your personal data. 
+        You may also request a copy of the information we hold about you. To exercise these rights, 
+        please contact us directly.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">6. Data Retention</h4>
+      <p>
+        Contact form submissions are retained only as long as necessary to respond to your enquiry and 
+        are not stored in any third-party marketing database.
+      </p>
+      <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">7. Contact Us</h4>
+      <p>
+        If you have any questions about this Privacy Policy or wish to exercise your data rights, 
+        please contact us directly via the contact form above.
+      </p>
+      <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Last updated: 2025</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p style="font-size:0.95rem;font-weight:600;color:var(--blue);letter-spacing:0.3px;margin-bottom:0.6rem;">
+    Chiron Remote &amp; Extended Care — Contact: example@email.com
+  </p>
+  <p style="font-size:0.82rem;color:var(--muted);">
+    <button id="cookie-prefs-link" aria-label="Manage cookie preferences">Cookie preferences</button>
+    &nbsp;·&nbsp;
+    <a href="#privacy-policy" style="color:var(--muted);text-decoration:underline;">Privacy Policy</a>
+  </p>
+</footer>
+
 <script>
+/* ─── Hero Canvas ─────────────────────────────────────────────────────── */
 const canvas = document.getElementById("heroCanvas");
 const ctx = canvas.getContext("2d");
 function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -397,6 +599,7 @@ function draw() {
 }
 draw();
 
+/* ─── Scroll Animations ───────────────────────────────────────────────── */
 const animEls = document.querySelectorAll('.fade-up, .fade-left, .fade-right');
 function animateOnScroll() {
   animEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('visible'); });
@@ -404,6 +607,7 @@ function animateOnScroll() {
 window.addEventListener('scroll', animateOnScroll);
 window.addEventListener('load', animateOnScroll);
 
+/* ─── FAQ Accordion ───────────────────────────────────────────────────── */
 document.querySelectorAll('.faq-question').forEach(q => {
   q.addEventListener('click', () => {
     const answer = q.nextElementSibling;
@@ -414,6 +618,19 @@ document.querySelectorAll('.faq-question').forEach(q => {
   });
 });
 
+function togglePrivacy() {
+  const content = document.getElementById("privacy-content");
+  const question = content.previousElementSibling;
+  if (content.style.display === "block") {
+    content.style.display = "none";
+    question.classList.remove("open");
+  } else {
+    content.style.display = "block";
+    question.classList.add("open");
+  }
+}
+
+/* ─── Contact Form ────────────────────────────────────────────────────── */
 document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
   const btn = this.querySelector('button');
@@ -421,8 +638,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  // Send to both recipients using EmailJS
-  // SERVICE_ID and TEMPLATE_ID must be set up at emailjs.com
   emailjs.sendForm('service_3mh3fz6', 'template_m6b8q7m', this)
     .then(() => {
       status.textContent = '✓ Message sent! We\'ll be in touch shortly.';
@@ -439,7 +654,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         btn.disabled = false;
         status.style.display = 'none';
       }, 5000);
-    }, (error) => {
+    }, () => {
       status.textContent = '✗ Failed to send. Please email us directly at Wsutcliffe@outlook.com';
       status.style.display = 'block';
       status.style.background = '#fee2e2';
@@ -451,89 +666,83 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     });
 });
 
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-  <script>
-  const banner = document.getElementById("cookie-banner");
-  const acceptBtn = document.getElementById("accept-cookies");
-  const declineBtn = document.getElementById("decline-cookies");
+/* ─── Cookie Consent ──────────────────────────────────────────────────── */
+const CONSENT_KEY = 'chironcookieconsent_v1';
 
-  // Check if user already made a choice
-  if (localStorage.getItem("cookieConsent")) {
-    banner.classList.add("hidden");
+const overlay    = document.getElementById('cookie-overlay');
+const toggleAnalytics = document.getElementById('toggle-analytics');
+
+function getConsent() {
+  try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch { return null; }
+}
+
+function saveConsent(analytics) {
+  const record = {
+    timestamp: new Date().toISOString(),
+    essential: true,          // always true
+    analytics: analytics
+  };
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(record));
+  overlay.classList.add('hidden');
+
+  if (analytics) {
+    loadAnalytics();
   }
+}
 
-  acceptBtn.addEventListener("click", () => {
-    localStorage.setItem("cookieConsent", "accepted");
-    banner.classList.add("hidden");
+function showBanner() {
+  overlay.classList.remove('hidden');
+  // Reset toggle to unchecked when re-opening
+  toggleAnalytics.checked = false;
+  const saved = getConsent();
+  if (saved) { toggleAnalytics.checked = saved.analytics; }
+}
 
-    // Load optional cookies/scripts here
-    // Example: analytics
-    // loadAnalytics();
-  });
+// Accept all
+document.getElementById('btn-accept-all').addEventListener('click', () => {
+  saveConsent(true);
+});
 
-  declineBtn.addEventListener("click", () => {
-    localStorage.setItem("cookieConsent", "declined");
-    banner.classList.add("hidden");
-  });
+// Reject all optional
+document.getElementById('btn-reject-all').addEventListener('click', () => {
+  saveConsent(false);
+});
 
-  // Example function for loading analytics only after consent
-  function loadAnalytics() {
-    const script = document.createElement("script");
-    script.src = "https://www.googletagmanager.com/gtag/js?id=YOUR-ID";
-    document.head.appendChild(script);
+// Save granular preferences
+document.getElementById('btn-save-prefs').addEventListener('click', () => {
+  saveConsent(toggleAnalytics.checked);
+});
+
+// Re-open via footer link
+document.getElementById('cookie-prefs-link').addEventListener('click', () => {
+  showBanner();
+});
+
+// Smooth scroll for in-banner privacy link (doesn't dismiss banner)
+document.getElementById('cookie-privacy-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('privacy-policy').scrollIntoView({ behavior: 'smooth' });
+});
+
+// On load: show banner only if no prior consent recorded
+(function init() {
+  const saved = getConsent();
+  if (!saved) {
+    overlay.classList.remove('hidden');
+  } else {
+    overlay.classList.add('hidden');
+    if (saved.analytics) loadAnalytics();
   }
+})();
+
+// Analytics loader — only called after explicit consent
+function loadAnalytics() {
+  // Replace YOUR-ANALYTICS-ID with your actual GA/GTM ID when ready
+  // const script = document.createElement("script");
+  // script.src = "https://www.googletagmanager.com/gtag/js?id=YOUR-ANALYTICS-ID";
+  // document.head.appendChild(script);
+  // console.log("Analytics loaded with user consent.");
+}
 </script>
-</body>
-</html>
-<section id="privacy-policy" style="padding: 4rem 10%;">
-  <div class="faq-item">
-    <div class="faq-question" onclick="togglePrivacy()">
-      Privacy Policy
-    </div>
-
-    <div id="privacy-content" class="faq-answer">
-      <p>
-        At Chiron Remote & Extended Care, we take your privacy seriously. This policy explains 
-        what information we collect, how we use it, and your rights under UK GDPR and the Data 
-        Protection Act 2018.
-      </p>
-
-      <h4>1. Information We Collect</h4>
-      <p>
-        We only collect personal information that you voluntarily provide, such as your name, 
-        email address, phone number, or details submitted through our contact forms.
-      </p>
-
-      <h4>2. How We Use Your Information</h4>
-      <p>
-        We use your information solely to respond to your enquiries, provide requested services, 
-        and maintain communication with you. We do not sell or share your information with 
-        third parties.
-      </p>
-
-      <h4>3. Cookies</h4>
-      <p>
-        This website uses essential cookies required for basic functionality. Optional cookies 
-        are only activated if you click “Accept” on our cookie banner.
-      </p>
-
-      <h4>4. Your Rights</h4>
-      <p>
-        You have the right to access, correct, delete, or restrict the use of your personal data. 
-        You may also request a copy of the information we hold about you.
-      </p>
-
-      <h4>5. Contact Us</h4>
-      <p>
-        If you have any questions about this Privacy Policy or wish to exercise your data rights, 
-        please contact us directly.
-      </p>
-    </div>
-  </div>
-</section>
-<footer>
-  <p style="font-size:0.95rem;font-weight:600;color:var(--blue);letter-spacing:0.3px;margin-bottom:0.4rem;">Chiron Remote &amp; Extended Care — Contact: example@email.com</p>
-</footer>
 </body>
 </html>
