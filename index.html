@@ -3,7 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chiron Remote & Extended Care</title>
+<title>Chiron Remote &amp; Extended Care | Remote &amp; Expedition Medical Support</title>
+
+<!-- Primary SEO -->
+<meta name="description" content="Chiron Remote & Extended Care supports registered healthcare practitioners to deliver extended scope interventions in remote and austere environments — maritime, offshore, and expedition medicine.">
+<meta name="keywords" content="remote medicine, expedition medicine, offshore medical, maritime medicine, extended scope practice, HEMS, austere environment healthcare, remote medical training">
+<meta name="author" content="Chiron Remote & Extended Care">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.chironremotecare.com/"><!-- ← update with your real domain -->
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp previews) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.chironremotecare.com/">
+<meta property="og:title" content="Chiron Remote & Extended Care">
+<meta property="og:description" content="Enabling best care when definitive care is not an option. Bespoke training for healthcare practitioners in remote, maritime, offshore and expedition environments.">
+<meta property="og:image" content="https://www.chironremotecare.com/og-image.jpg"><!-- ← add a 1200×630px image -->
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="Chiron Remote & Extended Care">
+
+<!-- Twitter/X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chiron Remote & Extended Care">
+<meta name="twitter:description" content="Enabling best care when definitive care is not an option. Bespoke training for remote, maritime and expedition medicine.">
+<meta name="twitter:image" content="https://www.chironremotecare.com/og-image.jpg">
+
+<!-- Structured Data (Google rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Chiron Remote & Extended Care",
+  "description": "Supporting registered healthcare practitioners to deliver extended scope of practice interventions in remote or austere environments.",
+  "url": "https://www.chironremotecare.com",
+  "areaServed": "Worldwide",
+  "serviceType": ["Remote Medicine Training", "Expedition Medicine", "Offshore Medical Support", "Maritime Medicine"]
+}
+</script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="text/javascript">
   (function(){
@@ -168,12 +203,92 @@ footer {
 .fade-right { transform: translateX(60px); }
 .visible    { opacity: 1 !important; transform: translate(0,0) !important; }
 
+/* ─── Hamburger Nav ───────────────────────────────────────────────────── */
+.nav-links { display: flex; align-items: center; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.hamburger:hover { background: rgba(30,58,138,0.07); }
+.hamburger span {
+  display: block;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+  transition: transform 0.35s ease, opacity 0.25s ease, width 0.3s ease;
+  transform-origin: center;
+}
+.hamburger span:nth-child(2) { width: 70%; margin-left: auto; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; width: 100%; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: white;
+  padding: 5rem 2rem 2.5rem;
+  z-index: 150;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+  flex-direction: column;
+  gap: 0;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed; /* keep fixed, close btn uses absolute within it */
+}
+.mobile-menu.open {
+  transform: translateY(0);
+}
+.mobile-menu a {
+  display: block;
+  padding: 1rem 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid #f1f5f9;
+  transition: color 0.2s, padding-left 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--blue-light); padding-left: 0.5rem; }
+
+.mobile-menu-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+.mobile-menu-close:hover { color: var(--blue); background: rgba(30,58,138,0.07); }
+
 @media (max-width: 700px) {
   section { padding: 4rem 6%; }
   .hero h1 { font-size: 2.2rem; }
-  nav a { margin-left: 0.8rem; font-size: 0.85rem; }
   .logo-text .brand-chiron { font-size: 1rem; }
   .logo-text .brand-sub { font-size: 0.65rem; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: flex; }
 }
 
 /* ─── Cookie Consent Banner ─────────────────────────────────────────────── */
@@ -394,9 +509,9 @@ footer {
 
 <nav>
   <div class="logo" style="display:flex;align-items:center;">
-    <img src="new_logo-removebg-preview.png" alt="Chiron Logo">
+    <img src="new_logo-removebg-preview.png" alt="Chiron Remote & Extended Care logo">
   </div>
-  <div>
+  <div class="nav-links">
     <a href="#about">About</a>
     <a href="#qualifications">Qualifications</a>
     <a href="#experience">Experience</a>
@@ -404,7 +519,21 @@ footer {
     <a href="#faqs">FAQs</a>
     <a href="#contact">Contact</a>
   </div>
+  <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile slide-down menu -->
+<div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+  <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close navigation menu">✕</button>
+  <a href="#about">About</a>
+  <a href="#qualifications">Qualifications</a>
+  <a href="#experience">Experience</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#faqs">FAQs</a>
+  <a href="#contact">Contact</a>
+</div>
 
 <section class="hero">
   <canvas id="heroCanvas"></canvas>
@@ -496,7 +625,7 @@ footer {
 
 <section id="privacy-policy" style="padding: 4rem 10%;">
   <div class="faq-item">
-    <div class="faq-question" onclick="togglePrivacy()">Privacy Policy</div>
+    <div class="faq-question">Privacy Policy</div>
     <div id="privacy-content" class="faq-answer">
       <p>
         At Chiron Remote &amp; Extended Care, we take your privacy seriously. This policy explains 
@@ -541,7 +670,7 @@ footer {
       <h4 style="margin-top:1rem;margin-bottom:0.4rem;color:var(--text)">7. Contact Us</h4>
       <p>
         If you have any questions about this Privacy Policy or wish to exercise your data rights, 
-        please contact us directly via the contact form above.
+        please contact us at <a href="mailto:will.sutcliffe@chironremote.com" style="color:var(--blue-light);">will.sutcliffe@chironremote.com</a>.
       </p>
       <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted)">Last updated: 2025</p>
     </div>
@@ -550,16 +679,14 @@ footer {
 
 <footer>
   <p style="font-size:0.95rem;font-weight:600;color:var(--blue);letter-spacing:0.3px;margin-bottom:0.6rem;">
-    Chiron Remote &amp; Extended Care — Contact: example@email.com
+    Chiron Remote &amp; Extended Care — <a href="mailto:will.sutcliffe@chironremote.com" style="color:var(--blue);text-decoration:none;">will.sutcliffe@chironremote.com</a>
   </p>
   <p style="font-size:0.82rem;color:var(--muted);">
     <button id="cookie-prefs-link" aria-label="Manage cookie preferences">Cookie preferences</button>
-    &nbsp;·&nbsp;
-    <a href="#privacy-policy" style="color:var(--muted);text-decoration:underline;">Privacy Policy</a>
   </p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── Hero Canvas ─────────────────────────────────────────────────────── */
 const canvas = document.getElementById("heroCanvas");
 const ctx = canvas.getContext("2d");
@@ -567,7 +694,11 @@ function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = wind
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 let t = 0;
+let animFrameId = null;
+let isPageVisible = true;
+
 function draw() {
+  if (!isPageVisible) { animFrameId = null; return; }
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   grad.addColorStop(0, "#0f172a");
@@ -595,8 +726,14 @@ function draw() {
     ctx.stroke();
   }
   t += 0.015;
-  requestAnimationFrame(draw);
+  animFrameId = requestAnimationFrame(draw);
 }
+
+// Pause animation when tab is hidden, resume when visible
+document.addEventListener("visibilitychange", () => {
+  isPageVisible = document.visibilityState === "visible";
+  if (isPageVisible && !animFrameId) draw();
+});
 draw();
 
 /* ─── Scroll Animations ───────────────────────────────────────────────── */
@@ -606,6 +743,43 @@ function animateOnScroll() {
 }
 window.addEventListener('scroll', animateOnScroll);
 window.addEventListener('load', animateOnScroll);
+
+/* ─── Hamburger Menu ──────────────────────────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.contains('open');
+  if (isOpen) {
+    closeMenu();
+  } else {
+    hamburger.classList.add('open');
+    mobileMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+});
+
+// Close button inside the menu
+mobileMenuClose.addEventListener('click', closeMenu);
+
+// Close menu when any link is tapped
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', closeMenu);
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMenu();
+});
 
 /* ─── FAQ Accordion ───────────────────────────────────────────────────── */
 document.querySelectorAll('.faq-question').forEach(q => {
@@ -617,18 +791,6 @@ document.querySelectorAll('.faq-question').forEach(q => {
     if (!isOpen) { answer.style.display = 'block'; q.classList.add('open'); }
   });
 });
-
-function togglePrivacy() {
-  const content = document.getElementById("privacy-content");
-  const question = content.previousElementSibling;
-  if (content.style.display === "block") {
-    content.style.display = "none";
-    question.classList.remove("open");
-  } else {
-    content.style.display = "block";
-    question.classList.add("open");
-  }
-}
 
 /* ─── Contact Form ────────────────────────────────────────────────────── */
 document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -655,7 +817,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         status.style.display = 'none';
       }, 5000);
     }, () => {
-      status.textContent = '✗ Failed to send. Please email us directly at Wsutcliffe@outlook.com';
+      status.textContent = '✗ Failed to send. Please email us directly at will.sutcliffe@chironremote.com';
       status.style.display = 'block';
       status.style.background = '#fee2e2';
       status.style.color = '#991b1b';
@@ -738,10 +900,13 @@ document.getElementById('cookie-privacy-link').addEventListener('click', (e) => 
 // Analytics loader — only called after explicit consent
 function loadAnalytics() {
   // Replace YOUR-ANALYTICS-ID with your actual GA/GTM ID when ready
-  // const script = document.createElement("script");
-  // script.src = "https://www.googletagmanager.com/gtag/js?id=YOUR-ANALYTICS-ID";
+  // const script = document.createElement('script');
+  // script.src = 'https://www.googletagmanager.com/gtag/js?id=YOUR-ANALYTICS
   // document.head.appendChild(script);
-  // console.log("Analytics loaded with user consent.");
+  // window.dataLayer = window.dataLayer || [];
+  // function gtag(){dataLayer.push(arguments);}
+  // gtag('js', new Date());
+  // gtag('config', 'YOUR-ANALYTICS-ID');
 }
 </script>
 </body>
