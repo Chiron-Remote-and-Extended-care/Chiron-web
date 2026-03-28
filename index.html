@@ -861,11 +861,11 @@ window.addEventListener('load', animateOnScroll);
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
 
-  let autoplay = setInterval(() => goTo(current + 1), 5000);
+  let autoplay = setInterval(() => goTo(current + 1), 3000);
 
   [prevBtn, nextBtn, track].forEach(el => {
     el.addEventListener('mouseenter', () => clearInterval(autoplay));
-    el.addEventListener('mouseleave', () => { autoplay = setInterval(() => goTo(current + 1), 5000); });
+    el.addEventListener('mouseleave', () => { autoplay = setInterval(() => goTo(current + 1), 3000); });
   });
 }());
 
