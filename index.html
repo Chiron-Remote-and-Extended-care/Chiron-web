@@ -99,24 +99,23 @@ nav .logo img {
     max-height: 90px;
   }
 }
-nav a.active {
-  color: var(--blue);
-  text-decoration: underline;
-}
+nav a.active,
 .mobile-menu a.active {
-  color: var(--blue);
+  color: var(--text);
   text-decoration: none;
-  background: rgba(37,99,235,0.08);
+  background: transparent;
 }
 nav a:hover,
 .mobile-menu a:hover {
   color: var(--text); /* disable hover blue */
+  background: transparent;
 }
 nav a:focus,
 .mobile-menu a:focus {
   color: var(--text); /* disable focus blue */
   outline: none;
   text-shadow: none;
+  background: transparent;
 }
 nav a:focus-visible,
 .mobile-menu a:focus-visible {
@@ -549,7 +548,7 @@ footer {
   inset: 0;
   background: rgba(15, 23, 42, 0.55);
   z-index: 9998;
-  display: flex;
+  display: none !important;
   align-items: flex-end;
   justify-content: center;
   padding: 1rem;
@@ -709,7 +708,7 @@ footer {
 <body>
 
 <!-- ─── Cookie Consent Overlay ──────────────────────────────────────────── -->
-<div id="cookie-overlay" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+<div id="cookie-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
   <div id="cookie-banner">
     <h3 id="cookie-title">🍪 We use cookies</h3>
     <p>
@@ -1330,13 +1329,7 @@ document.getElementById('cookie-privacy-link').addEventListener('click', (e) => 
 
 // On load: show banner only if no prior consent recorded
 (function init() {
-  const saved = getConsent();
-  if (!saved) {
-    overlay.classList.remove('hidden');
-  } else {
-    overlay.classList.add('hidden');
-    if (saved.analytics) loadAnalytics();
-  }
+  overlay.classList.add('hidden');
 })();
 
 // Analytics loader — only called after explicit consent
