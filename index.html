@@ -73,25 +73,33 @@ nav {
   display: flex; justify-content: space-between; align-items: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05); z-index: 100;
 }
-nav a {
+nav a,
+.mobile-menu a {
   margin-left: 1.5rem;
   text-decoration: none;
   color: var(--text);
   font-weight: 500;
   font-size: 1rem;
   user-select: none;
-  transition: color 0.2s ease, transform 0.2s ease, font-size 0.2s ease;
+  transition: color 0.2s ease;
 }
 nav a:hover,
+.mobile-menu a:hover {
+  color: var(--blue-light);
+}
 nav a:focus,
-nav a:active {
+.mobile-menu a:focus,
+nav a:active,
+.mobile-menu a:active {
   color: var(--blue-light);
   outline: none;
   text-shadow: none;
-  transform: none;
-  font-size: 1rem;
 }
-nav a:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 2px; }
+nav a:focus-visible,
+.mobile-menu a:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}
 
 .logo { display: flex; align-items: center; gap: 0.75rem; }
 .logo img {
@@ -347,6 +355,7 @@ footer {
   outline: none;
   font-size: 1.15rem;
 }
+.mobile-menu-close {
   color: var(--muted);
   cursor: pointer;
   line-height: 1;
