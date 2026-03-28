@@ -125,8 +125,8 @@ nav a:focus-visible,
 }
 .nav-links a.active,
 .mobile-menu a.active {
-  color: var(--blue);
-  background: rgba(37,99,235,.1);
+  color: inherit;
+  background: transparent;
 }
 
 /* On touch devices disable hover/focus coloring entirely */
@@ -1196,16 +1196,6 @@ window.addEventListener('pageshow', (event) => {
 
 window.addEventListener('load', enforceTopOnLoad);
 
-function setActiveLink(linkClicked) {
-  navLinks.forEach(link => {
-    if (linkClicked) {
-      link.classList.toggle('active', link === linkClicked);
-    } else {
-      link.classList.remove('active');
-    }
-  });
-}
-
 navLinks.forEach(link => {
   link.addEventListener('click', (event) => {
     event.preventDefault();
@@ -1214,7 +1204,6 @@ navLinks.forEach(link => {
     if (targetEl) {
       targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    setActiveLink(link);
     link.blur();
 
     // For mobile menu links, close menu after click
