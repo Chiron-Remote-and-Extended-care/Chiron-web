@@ -253,6 +253,29 @@ nav a:focus-visible,
 }
 .carousel-btn:hover { transform: scale(1.1); background: rgba(15,23,42,0.72); }
 
+.carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 2;
+}
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.8);
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.carousel-dot.active {
+  background: white;
+  transform: scale(1.15);
+}
+
 .card {
   background: white; padding: 1.5rem; border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
@@ -758,6 +781,7 @@ footer {
       <button class="carousel-btn" id="carouselPrev" aria-label="Previous image">‹</button>
       <button class="carousel-btn" id="carouselNext" aria-label="Next image">›</button>
     </div>
+    <div class="carousel-dots" id="carouselDots" aria-label="Carousel slide navigation"></div>
   </div>
 </section>
 
@@ -974,6 +998,7 @@ window.addEventListener('load', animateOnScroll);
 
   let current = 0;
   const videos = track.querySelectorAll('video');
+  const carouselDots = document.getElementById('carouselDots');
 
   const updateVideoState = () => {
     videos.forEach((video, idx) => {
@@ -987,11 +1012,37 @@ window.addEventListener('load', animateOnScroll);
     });
   };
 
+  const setActiveDot = () => {
+    if (!carouselDots) return;
+    Array.from(carouselDots.children).forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === current);
+    });
+  };
+
   const goTo = (index) => {
     current = (index + slides.length) % slides.length;
     track.style.transform = `translateX(-${current * 100}%)`;
     updateVideoState();
+    setActiveDot();
   };
+
+  if (carouselDots) {
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+      dot.addEventListener('click', () => {
+        goTo(idx);
+        pausedByUser = true;
+        clearInterval(autoplay);
+        setTimeout(() => { pausedByUser = false; startAutoplay(); }, 5000);
+      });
+      carouselDots.appendChild(dot);
+    });
+    setActiveDot();
+    updateVideoState();
+  }
 
   prevBtn.addEventListener('click', () => goTo(current - 1));
   nextBtn.addEventListener('click', () => goTo(current + 1));
