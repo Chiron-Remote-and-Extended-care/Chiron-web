@@ -30,12 +30,6 @@
 <meta name="twitter:description" content="Enabling best care when definitive care is not an option. Bespoke training for remote, maritime and expedition medicine.">
 <meta name="twitter:image" content="https://www.chironremotecare.com/og-image.jpg">
 
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://www.chironremotecare.com; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.emailjs.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
-
 <!-- Structured Data (Google rich results) -->
 <script type="application/ld+json">
 {
@@ -48,7 +42,12 @@
   "serviceType": ["Remote Medicine Training", "Expedition Medicine", "Offshore Medical Support", "Maritime Medicine"]
 }
 </script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" integrity="sha384/SALc35EccAf6RzGw4iNsyj7kTPr33K7RoGzYu+7heZhT8s0GZouafRiCg1qy44AS" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function(){
+    emailjs.init({ publicKey: "LZNbLn1XyZcF4cJ82" });
+  })();
+</script>
 <style>
 :root {
   --blue: #1e3a8a;
@@ -89,10 +88,9 @@ nav a,
   font-weight: 500;
   font-size: 0.95rem;
   user-select: none;
-  transition: none !important;
-  -webkit-tap-highlight-color: transparent !important;
+  transition: none;
+  -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  background: transparent !important;
 }
 nav .logo img {
   max-height: 110px;
@@ -104,28 +102,47 @@ nav .logo img {
   }
 }
 nav a.active,
-.mobile-menu a.active,
-.nav-links a.active,
 .mobile-menu a.active {
-  color: var(--text) !important;
-  text-decoration: none !important;
-  background: transparent !important;
+  color: var(--text);
+  text-decoration: none;
+  background: transparent;
 }
 nav a:hover,
-.mobile-menu a:hover,
+.mobile-menu a:hover {
+  color: var(--text); /* disable hover blue */
+  background: transparent;
+}
 nav a:focus,
-.mobile-menu a:focus,
-nav a:active,
-.mobile-menu a:active {
-  color: var(--text) !important;
-  background: transparent !important;
-  outline: none !important;
-  text-shadow: none !important;
+.mobile-menu a:focus {
+  color: var(--text); /* disable focus blue */
+  outline: none;
+  text-shadow: none;
+  background: transparent;
 }
 nav a:focus-visible,
 .mobile-menu a:focus-visible {
   outline: 2px solid var(--blue-light);
   outline-offset: 2px;
+}
+.nav-links a.active,
+.mobile-menu a.active {
+  color: inherit;
+  background: transparent;
+}
+
+/* On touch devices disable hover/focus coloring entirely */
+@media (hover: none) {
+  nav a:hover,
+  .mobile-menu a:hover,
+  nav a:focus,
+  .mobile-menu a:focus,
+  nav a:active,
+  .mobile-menu a:active {
+    color: var(--text);
+    background: transparent;
+    outline: none;
+    text-shadow: none;
+  }
 }
 
 /* Disable hover-like flicker on touch devices */
@@ -954,5 +971,387 @@ footer {
   </p>
 </footer>
 
-<script defer src="app.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ─── Hero Canvas ─────────────────────────────────────────────────────── */
+const canvas = document.getElementById("heroCanvas");
+const ctx = canvas.getContext("2d");
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+let t = 0;
+let animFrameId = null;
+let isPageVisible = true;
+
+function draw() {
+  if (!isPageVisible) { animFrameId = null; return; }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+  grad.addColorStop(0, "#0f172a");
+  grad.addColorStop(1, "#1e3a8a");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = `rgba(255,123,123,${0.15 + i * 0.06})`;
+    const amplitude = 40 + i * 20;
+    const yOffset = canvas.height * 0.35 + i * 90;
+    for (let x = 0; x <= canvas.width; x++) {
+      const y = yOffset + Math.sin((x + t * 20) * 0.003) * amplitude;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.moveTo(0, canvas.height * 0.1 + i * 90);
+    ctx.lineTo(canvas.width, canvas.height * 0.1 + i * 90);
+    ctx.stroke();
+  }
+  t += 0.015;
+  animFrameId = requestAnimationFrame(draw);
+}
+
+// Pause animation when tab is hidden, resume when visible
+document.addEventListener("visibilitychange", () => {
+  isPageVisible = document.visibilityState === "visible";
+  if (isPageVisible && !animFrameId) draw();
+});
+draw();
+
+/* ─── Scroll Animations ───────────────────────────────────────────────── */
+const animEls = document.querySelectorAll('.fade-up, .fade-left, .fade-right');
+function animateOnScroll() {
+  animEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('visible'); });
+}
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
+
+/* ─── Image Carousel ──────────────────────────────────────────────────── */
+(function(){
+  const track = document.getElementById('carouselTrack');
+  const slides = track ? Array.from(track.children) : [];
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  if (!track || slides.length === 0 || !prevBtn || !nextBtn) return;
+
+  let current = 0;
+  const videos = track.querySelectorAll('video');
+  const carouselDots = document.getElementById('carouselDots');
+
+  const updateVideoState = () => {
+    videos.forEach((video, idx) => {
+      if (idx === current) {
+        video.muted = true;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  };
+
+  const setActiveDot = () => {
+    if (!carouselDots) return;
+    Array.from(carouselDots.children).forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === current);
+    });
+  };
+
+  const goTo = (index) => {
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    updateVideoState();
+    setActiveDot();
+  };
+
+  if (carouselDots) {
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+      dot.addEventListener('click', () => {
+        goTo(idx);
+        pausedByUser = true;
+        clearInterval(autoplay);
+        setTimeout(() => { pausedByUser = false; startAutoplay(); }, 5000);
+      });
+      carouselDots.appendChild(dot);
+    });
+    setActiveDot();
+    updateVideoState();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  let autoplay = setInterval(() => goTo(current + 1), 3000);
+  let pausedByUser = false;
+
+  const startAutoplay = () => {
+    if (pausedByUser) return;
+    clearInterval(autoplay);
+    autoplay = setInterval(() => goTo(current + 1), 3000);
+  };
+
+  const stopAutoplay = () => { clearInterval(autoplay); };
+
+  [prevBtn, nextBtn, track].forEach(el => {
+    el.addEventListener('mouseenter', stopAutoplay);
+    el.addEventListener('mouseleave', startAutoplay);
+  });
+
+  [prevBtn, nextBtn].forEach(btn => btn.addEventListener('click', () => {
+    pausedByUser = true;
+    clearInterval(autoplay);
+    setTimeout(() => { pausedByUser = false; startAutoplay(); }, 5000);
+  }));
+
+  let touchStartX = 0;
+  track.addEventListener('touchstart', (e) => {
+    stopAutoplay();
+    pausedByUser = true;
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) {
+        goTo(current + 1);
+      } else {
+        goTo(current - 1);
+      }
+    }
+    setTimeout(() => { pausedByUser = false; startAutoplay(); }, 3000);
+  });
+}());
+
+/* ─── Hamburger Menu ──────────────────────────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.contains('open');
+  if (isOpen) {
+    closeMenu();
+  } else {
+    hamburger.classList.add('open');
+    mobileMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+});
+
+// Close button inside the menu
+mobileMenuClose.addEventListener('click', closeMenu);
+
+// Close menu when any link is tapped
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    link.blur();
+    closeMenu();
+  });
+});
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeMenu();
+});
+
+const navLinks = document.querySelectorAll('nav .nav-links a, .mobile-menu a');
+
+// Avoid browser auto-scroll restoration when refreshed
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+function enforceTopOnLoad() {
+  if (window.location.hash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+}
+
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+});
+
+window.addEventListener('pageshow', (event) => {
+  // handle bfcache/restore paths on mobile and desktop
+  if (event.persisted || window.performance && window.performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+    enforceTopOnLoad();
+  }
+});
+
+window.addEventListener('load', enforceTopOnLoad);
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const targetId = link.getAttribute('href')?.replace('#', '');
+    const targetEl = targetId ? document.getElementById(targetId) : null;
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    link.blur();
+
+    // For mobile menu links, close menu after click
+    if (mobileMenu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+});
+
+const backToTopBtn = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > window.innerHeight / 2) {
+    backToTopBtn.classList.add('show');
+  } else {
+    backToTopBtn.classList.remove('show');
+  }
+});
+backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ─── FAQ Accordion ───────────────────────────────────────────────────── */
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const answer = q.nextElementSibling;
+    const isOpen = answer.style.display === 'block';
+    document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+    document.querySelectorAll('.faq-question').forEach(q2 => q2.classList.remove('open'));
+    if (!isOpen) { answer.style.display = 'block'; q.classList.add('open'); }
+  });
+});
+
+/* ─── Contact Form ────────────────────────────────────────────────────── */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button');
+  const status = document.getElementById('formStatus');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  emailjs.sendForm('service_3mh3fz6', 'template_m6b8q7m', this)
+    .then(() => {
+      status.textContent = '✓ Message sent! We\'ll be in touch shortly.';
+      status.style.display = 'block';
+      status.style.background = '#dcfce7';
+      status.style.color = '#166534';
+      status.style.border = '1px solid #bbf7d0';
+      btn.textContent = '✓ Sent!';
+      btn.style.background = '#22c55e';
+      this.reset();
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.disabled = false;
+        status.style.display = 'none';
+      }, 5000);
+    }, () => {
+      status.textContent = '✗ Failed to send. Please email us directly at will.sutcliffe@chironremote.com';
+      status.style.display = 'block';
+      status.style.background = '#fee2e2';
+      status.style.color = '#991b1b';
+      status.style.border = '1px solid #fecaca';
+      btn.textContent = 'Send Message';
+      btn.style.background = '';
+      btn.disabled = false;
+    });
+});
+
+/* ─── Cookie Consent ──────────────────────────────────────────────────── */
+const CONSENT_KEY = 'chironcookieconsent_v1';
+
+const overlay    = document.getElementById('cookie-overlay');
+const toggleAnalytics = document.getElementById('toggle-analytics');
+
+function getConsent() {
+  try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch { return null; }
+}
+
+function saveConsent(analytics) {
+  const record = {
+    timestamp: new Date().toISOString(),
+    essential: true,          // always true
+    analytics: analytics
+  };
+  localStorage.setItem(CONSENT_KEY, JSON.stringify(record));
+  overlay.classList.add('hidden');
+
+  if (analytics) {
+    loadAnalytics();
+  }
+}
+
+function showBanner() {
+  overlay.classList.remove('hidden');
+  // Reset toggle to unchecked when re-opening
+  toggleAnalytics.checked = false;
+  const saved = getConsent();
+  if (saved) { toggleAnalytics.checked = saved.analytics; }
+}
+
+// Accept all
+document.getElementById('btn-accept-all').addEventListener('click', () => {
+  saveConsent(true);
+});
+
+// Reject all optional
+document.getElementById('btn-reject-all').addEventListener('click', () => {
+  saveConsent(false);
+});
+
+// Save granular preferences
+document.getElementById('btn-save-prefs').addEventListener('click', () => {
+  saveConsent(toggleAnalytics.checked);
+});
+
+// Re-open via footer link
+document.getElementById('cookie-prefs-link').addEventListener('click', () => {
+  showBanner();
+});
+
+// Smooth scroll for in-banner privacy link (doesn't dismiss banner)
+document.getElementById('cookie-privacy-link').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('privacy-policy').scrollIntoView({ behavior: 'smooth' });
+});
+
+// On load: show banner only if no prior consent recorded
+(function init() {
+  const saved = getConsent();
+  if (!saved) {
+    overlay.classList.remove('hidden');
+  } else {
+    overlay.classList.add('hidden');
+    if (saved.analytics) loadAnalytics();
+  }
+})();
+
+// Analytics loader — only called after explicit consent
+function loadAnalytics() {
+  // Replace YOUR-ANALYTICS-ID with your actual GA/GTM ID when ready
+  // const script = document.createElement('script');
+  // script.src = 'https://www.googletagmanager.com/gtag/js?id=YOUR-ANALYTICS
+  // document.head.appendChild(script);
+  // window.dataLayer = window.dataLayer || [];
+  // function gtag(){dataLayer.push(arguments);}
+  // gtag('js', new Date());
+  // gtag('config', 'YOUR-ANALYTICS-ID');
+}
+</script>
 </body>
+</html>
