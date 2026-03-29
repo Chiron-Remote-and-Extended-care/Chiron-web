@@ -90,13 +90,11 @@ namespace KayakSimulator.Core
             Time.timeScale = 1f;
         }
 
-        /// <summary>Quit the application (shows message on WebGL).</summary>
+        /// <summary>Quit the application.</summary>
         public void QuitGame()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_WEBGL
-            WebGL.WebGLBridge.Alert("Thanks for playing Kayak Simulator! You can close this tab.");
 #else
             Application.Quit();
 #endif
