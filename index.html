@@ -141,6 +141,28 @@ nav a:focus-visible,
     text-shadow: none;
     -webkit-tap-highlight-color: transparent;
   }
+  .mobile-menu a {
+    transition: none;
+  }
+  .hamburger:hover,
+  .hamburger:focus,
+  .hamburger:active {
+    background: none;
+    outline: none;
+  }
+  .mobile-menu-close:hover,
+  .mobile-menu-close:focus,
+  .mobile-menu-close:active {
+    color: var(--muted);
+    background: transparent;
+    outline: none;
+  }
+  .faq-question:hover,
+  .faq-question:focus,
+  .faq-question:active {
+    background: white;
+    outline: none;
+  }
 }
 
 .logo { display: flex; align-items: center; gap: 0.75rem; }
@@ -328,8 +350,9 @@ nav a:focus-visible,
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   border-left: 4px solid var(--blue); transition: 0.3s;
   display: flex; justify-content: space-between; align-items: center;
+  -webkit-tap-highlight-color: transparent;
 }
-.faq-question:hover { background: rgba(30,58,138,0.06); }
+@media (hover: hover) { .faq-question:hover { background: rgba(30,58,138,0.06); } }
 .faq-question::after { content: '+'; font-size: 1.3rem; color: var(--blue-light); transition: 0.3s; }
 .faq-question.open::after { content: '−'; }
 .faq-answer {
@@ -403,7 +426,7 @@ footer {
   transition: background 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
-.hamburger:hover { background: rgba(30,58,138,0.07); }
+@media (hover: hover) { .hamburger:hover { background: rgba(30,58,138,0.07); } }
 .hamburger span {
   display: block;
   height: 2px;
@@ -416,6 +439,12 @@ footer {
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; width: 100%; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.hamburger:focus,
+.hamburger:active {
+  outline: none;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
 .mobile-menu {
   display: none;
@@ -446,11 +475,13 @@ footer {
   -webkit-tap-highlight-color: transparent;
 }
 .mobile-menu a:last-child { border-bottom: none; }
-.mobile-menu a:hover,
-.mobile-menu a:focus-visible {
-  color: var(--blue-light);
-  padding-left: 0.5rem;
-  outline: none;
+@media (hover: hover) {
+  .mobile-menu a:hover,
+  .mobile-menu a:focus-visible {
+    color: var(--blue-light);
+    padding-left: 0.5rem;
+    outline: none;
+  }
 }
 .mobile-menu-close {
   color: var(--muted);
@@ -461,7 +492,12 @@ footer {
   transition: color 0.2s, background 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
-.mobile-menu-close:hover { color: var(--blue); background: rgba(30,58,138,0.07); }
+@media (hover: hover) { .mobile-menu-close:hover { color: var(--blue); background: rgba(30,58,138,0.07); } }
+.mobile-menu-close:focus,
+.mobile-menu-close:active {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
 #backToTop {
   position: fixed;
