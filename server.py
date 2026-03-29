@@ -50,7 +50,8 @@ class GzipAwareHandler(http.server.SimpleHTTPRequestHandler):
                 # Override the default Content-Type that was already set
                 self.send_header("Content-Type", mime)
 
-        # Allow cross-origin requests (useful for SharedArrayBuffer)
+        # Required for Unity WebGL multi-threaded builds that use
+        # SharedArrayBuffer; these headers enable cross-origin isolation.
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Embedder-Policy", "require-corp")
         super().end_headers()

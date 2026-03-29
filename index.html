@@ -131,7 +131,7 @@ const WAVES = [
   { dx:-0.35, dz: 1.0, amp: 0.12, wl: 3.2, spd: 1.9, steep: 0.25 },
   { dx:-0.8, dz:-0.45, amp: 0.07, wl: 1.9, spd: 2.4, steep: 0.15 }
 ];
-// Normalise wave directions
+// Normalize wave directions
 WAVES.forEach(w => { const l = Math.hypot(w.dx, w.dz); w.dx /= l; w.dz /= l; });
 
 /* ═══════════════════════════════════════════════
