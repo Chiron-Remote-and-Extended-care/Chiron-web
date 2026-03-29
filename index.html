@@ -169,11 +169,17 @@ function sStep(lo,hi,x){ const t=Math.max(0,Math.min(1,(x-lo)/(hi-lo))); return 
 
 /* ═══════════════════════════════════════════════
    RIVER PATH  — deterministic from z coordinate
+   Each function combines sine waves at different
+   frequencies/amplitudes to create natural variation.
    ═══════════════════════════════════════════════ */
+const RAPIDS_GRADIENT = -0.018; // Gradient steeper than this = rapids
+const STOPPER_GRADIENT = -0.028; // Gradient steeper than this = stopper/hydraulic
+
 function rCenterX(z){
   return 12*Math.sin(z*0.006)+6*Math.sin(z*0.017+1.3)
         +3*Math.sin(z*0.037+2.7)+1.8*Math.sin(z*0.063+0.8);
 }
+// Width oscillates ±8 around RIVER_W_BASE via three harmonics
 function rWidth(z){
   return RIVER_W_BASE+4*Math.sin(z*0.012+.5)+2.5*Math.sin(z*0.029+1.8)
         +1.5*Math.sin(z*0.053+3.1);
@@ -189,7 +195,7 @@ function rTangent(z){
   const e=.5,dx=rCenterX(z+e)-rCenterX(z-e),dz=2*e,
         l=Math.hypot(dx,dz); return {x:dx/l,z:dz/l};
 }
-function isRapids(z){ return rGrad(z)<-0.018; }
+function isRapids(z){ return rGrad(z)<RAPIDS_GRADIENT; }
 
 /* ═══════════════════════════════════════════════
    WATER HEIGHT & CURRENT
@@ -352,7 +358,7 @@ function createWater(){
         float h=rBY(z);
         vec2 tg=rT(z);
         float fp=tg.x*wx+tg.y*z;
-        bool rap=rG(z)<-.018;
+        bool rap=rG(z)<${RAPIDS_GRADIENT.toFixed(3)};
 
         // Ripples
         h+=.06*sin(fp*1.8-uTime*3.5)+.03*sin(fp*3.2+wx*.7-uTime*4.2);
@@ -720,7 +726,7 @@ function genRocks(grp,z0,z1){
 function genStoppers(z0,z1){
   for(let z=z0+5;z<z1-5;z+=3){
     const g=rGrad(z);
-    if(g<-.028){
+    if(g<STOPPER_GRADIENT){
       const cx=rCenterX(z),w=rWidth(z);
       // Check not already registered
       let dup=false;
@@ -815,11 +821,12 @@ function killChunk(ci){
   for(let i=stoppers.length-1;i>=0;i--)
     if(stoppers[i].zMin>=z0&&stoppers[i].zMax<z1) stoppers.splice(i,1);
 
+  const tm=getTreeMats();
   g.traverse(c=>{
     if(c.geometry)c.geometry.dispose();
     if(c.material){
       if(Array.isArray(c.material))c.material.forEach(m=>m.dispose());
-      else if(c.material!==getTreeMats().trunk&&!getTreeMats().leaves.includes(c.material))
+      else if(c.material!==tm.trunk&&!tm.leaves.includes(c.material))
         c.material.dispose();
     }
   });
@@ -1061,7 +1068,7 @@ function updateCamera(dt){
 /* ═══════════════════════════════════════════════
    HUD
    ═══════════════════════════════════════════════ */
-function updateHUD(){
+function updateHUD(dt){
   document.getElementById('speed-val').textContent=(S.speed*3.6).toFixed(1);
   let deg=((S.heading*180/Math.PI)%360+360)%360;
   document.getElementById('heading-val').textContent=String(Math.round(deg)).padStart(3,'0')+'°';
@@ -1075,7 +1082,7 @@ function updateHUD(){
 
   // Collision flash fade
   if(S.collisionFlash>0){
-    S.collisionFlash-=.016;
+    S.collisionFlash-=dt;
     if(S.collisionFlash<=0)
       document.getElementById('collision-flash').style.opacity='0';
   }
@@ -1096,7 +1103,7 @@ function animate(){
   if(S.playing&&!S.paused){
     updatePhysics(dt,t);
     updateCamera(dt);
-    updateHUD();
+    updateHUD(dt);
     updateFoam(dt,t);
 
     // Move sun shadow to follow player
