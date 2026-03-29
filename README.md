@@ -1,7 +1,7 @@
-# Kayak Simulator
+# River Run — Whitewater Kayak
 
-An **ultra-realistic kayak simulator** with Gerstner wave water physics, a 3D
-kayak with paddle animation, and both Arcade and Simulation control modes.
+A **realistic whitewater river kayaking game** with procedurally generated
+canyon terrain, flowing rapids, eddies, stoppers, and proper river physics.
 
 **▶ Play instantly in your browser — no installs required.**
 
@@ -26,9 +26,9 @@ can open it and start paddling immediately.
 
 | Host | How |
 |---|---|
-| [**Netlify**](https://app.netlify.com/drop) | Drag-and-drop the repo folder (or just `index.html`) |
+| [**Netlify**](https://app.netlify.com/drop) | Drag-and-drop the repo folder (or just `index.html` + `three.min.js`) |
 | [**itch.io**](https://itch.io) | Create an HTML project → upload a zip of the repo → set viewport to 960 × 600 |
-| **Any web server** | Copy `index.html` to your web root — it is 100 % self-contained |
+| **Any web server** | Copy `index.html` and `three.min.js` to your web root |
 
 ### Run locally (zero setup)
 
@@ -48,17 +48,26 @@ local server; Firefox works directly).
 
 | Category | Details |
 |---|---|
-| **Water** | 3D Gerstner wave ocean with foam, Fresnel reflections, specular highlights, and depth-based colouring — all in a custom GLSL shader |
+| **River** | Procedurally generated winding river with varying width, gradient, rapids sections, and calm pools |
+| **Canyon** | Continuous rocky cliff walls on both sides with moss, overhangs, and outcrop boulders |
+| **Water** | Custom GLSL shader with flow-aligned ripples, depth-based colouring, Fresnel reflections, foam, and white-water in rapids |
+| **Rocks** | Dozens of boulders in the river to navigate around — some above water, some submerged |
+| **Eddies** | Circular currents behind large rocks where you can rest (just like real whitewater) |
+| **Stoppers** | Recirculating hydraulics at steep drops that trap the kayak — paddle hard to escape |
+| **Rapids** | Steeper river sections with standing waves, turbulent foam, and an on-screen ⚠ RAPIDS warning |
+| **Current** | Realistic river current that pushes the kayak downstream, stronger in the centre, with auto-alignment |
 | **Kayak** | Tapered hull, cockpit, deck, and animated double-blade paddle — built from procedural geometry |
-| **Physics** | Momentum, water drag, angular drag, wave-surface tracking, tilt with wave normals, and lean |
+| **Physics** | Momentum, water drag, bank/rock collisions with bounce, eddy trapping, stopper effects |
 | **Modes** | **Arcade** (intuitive: A = left turn, D = right turn) and **Simulation** (realistic: left stroke turns right) |
 | **Camera** | Third-person follow, first-person cockpit, orbiting cinematic — press `C` to cycle |
-| **HUD** | Live speed (km/h), compass heading, left/right stroke power bars, distance meter |
-| **Audio** | Procedural ambient ocean sound via Web Audio API — no audio files needed |
+| **HUD** | Live speed (km/h), compass heading, left/right stroke power bars, distance downstream |
+| **Particles** | Foam/spray particles near rapids and turbulent sections |
+| **Trees** | Procedural pine trees and bushes along the canyon ridgeline |
+| **Audio** | Three-layer procedural river sound (rumble + splash + detail) via Web Audio API |
+| **Sky** | Gradient sky dome with warm horizon glow and atmospheric fog |
 | **Mobile** | Touch paddle zones appear automatically on phones and tablets |
 | **Toolbar** | Fullscreen toggle (⛶), mute (🔊), pause (⏸) |
-| **Buoys** | 12 coloured buoys bobbing on the waves — paddle around them |
-| **Self-contained** | Single HTML file + Three.js from CDN — nothing else to install or build |
+| **Self-contained** | Single HTML file + Three.js — nothing else to install or build |
 
 ---
 
@@ -66,8 +75,10 @@ local server; Firefox works directly).
 
 | Action | Keyboard | Mobile |
 |---|---|---|
+| Forward paddle | `W` | — |
 | Left paddle | `A` | Left touch zone |
 | Right paddle | `D` | Right touch zone |
+| Back-paddle / brake | `S` | — |
 | Steer | `←` / `→` | — |
 | Lean | `Q` / `E` | — |
 | Pause | `Escape` | ⏸ button |
@@ -81,6 +92,7 @@ local server; Firefox works directly).
 
 ```
 index.html                       ← THE GAME — open this in a browser
+three.min.js                     ← Three.js library (local copy)
 server.py                        – Optional local HTTP server for testing
 
 Assets/                          – Unity project source (for advanced development)
@@ -107,30 +119,41 @@ Documentation/
 
 ## 🔧 How It Works
 
-The standalone web game (`index.html`) uses **Three.js** loaded from a CDN to
-render a 3D ocean scene entirely in the browser:
+The standalone web game (`index.html`) uses **Three.js** to render a 3D river
+canyon scene entirely in the browser:
 
-- **Water** — a high-resolution plane mesh with a custom `ShaderMaterial`.
-  The vertex shader displaces vertices using four summed Gerstner waves
-  (matching the Unity project's `GerstnerWaveSystem`). The fragment shader
-  blends shallow/deep colours, adds foam at wave peaks, computes Fresnel
-  reflections, and applies specular highlights from a directional sun.
+- **River Path** — a deterministic combination of sine waves defines the river
+  centre, width, gradient, and tangent at any Z coordinate. The river winds
+  through a canyon that gets steeper and narrower in rapids sections.
 
-- **Kayak** — procedural geometry (tapered hull, deck, cockpit rim, seat)
-  grouped with an animated paddle pivot. Each frame the kayak's Y position
-  and tilt are set from the analytical wave height and normal.
+- **Water** — a large plane mesh with a custom `ShaderMaterial`. The vertex
+  shader displaces vertices to follow the river channel (bank masking pushes
+  vertices outside the river below the terrain). The fragment shader blends
+  depth-based colours, flow-aligned foam, standing-wave crests, Fresnel
+  reflections, and specular highlights.
 
-- **Physics** — a simple momentum model with thrust from paddle strokes,
-  directional drag, angular drag, and speed clamping. Arcade mode maps
-  A/D intuitively to left/right turning; Simulation mode uses realistic
-  opposing torque.
+- **Canyon Walls** — continuous `BufferGeometry` walls generated per chunk with
+  vertex colours for wet rock, dry rock, and moss. Rocky outcrops and boulders
+  add detail.
 
-- **Audio** — a looping noise buffer filtered through a low-pass creates
-  ambient ocean sound via the Web Audio API. No sound files are needed.
+- **Current System** — river current follows the path tangent, is strongest in
+  the centre, and reverses in stopper zones. Eddies behind rocks create
+  circular currents. The kayak auto-aligns with the current for intuitive
+  control.
 
-The Unity project under `Assets/` contains the full high-fidelity C# source
-for anyone who wants to develop the game further in the Unity Editor. See
+- **Chunk System** — terrain (walls, rocks, trees, ground) is generated in
+  60-unit chunks around the player. Old chunks are disposed as the player
+  moves downstream, creating an infinite river.
+
+- **Physics** — paddle thrust, differential turning, bank/rock collisions
+  with elastic bounce, eddy trapping, stopper recirculation, and auto-
+  alignment with river current.
+
+- **Audio** — three layers of filtered noise (low rumble, mid splash, high
+  detail) create a realistic river sound via the Web Audio API.
+
+The Unity project under `Assets/` contains the original C# source for anyone
+who wants to develop the game further in the Unity Editor. See
 [`Documentation/SceneSetupGuide.md`](Documentation/SceneSetupGuide.md) and
 [`Documentation/WebGLDeploymentGuide.md`](Documentation/WebGLDeploymentGuide.md)
 for Unity-specific instructions.
-
